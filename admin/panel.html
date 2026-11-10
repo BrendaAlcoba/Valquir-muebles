@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f4f2ee">
+<title>Panel de administración | Valquir</title>
+<link rel="stylesheet" href="css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+  <button id="menu-toggle" class="menu-toggle" type="button">☰</button>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <b>Valquir<br>Admin</b>
+    </div>
+
+    <nav id="tabs" class="sidebar-nav" aria-label="Secciones"></nav>
+
+    <div class="sidebar-footer">
+      <button id="salir" class="link" type="button">Cerrar Sesión</button>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay"></div>
+
+  <main class="main-content">
+    <div class="cab">
+      <h1 id="titulo"></h1>
+      <button id="nuevo" class="btn" type="button">+ Nuevo Registro</button>
+    </div>
+
+    <div id="bienvenida" class="bienvenida" style="display:none;">
+      <div class="bienvenida-texto">
+        <h2>¡Hola de nuevo!</h2>
+        <p>Acá tenés un resumen de cómo va el taller y tus ventas hoy.</p>
+      </div>
+      <div class="bienvenida-icono">🪑</div>
+    </div>
+
+    <p id="msg" class="aviso" role="alert"></p>
+    <div id="lista"></div>
+  </main>
+</div>
+
+<dialog id="dlg" aria-modal="true">
+  <form id="form" enctype="multipart/form-data"></form>
+</dialog>
+
+<script src="js/api.js"></script>
+<script src="js/panel.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+:root{--hueso:#F5F3EE;--hueso2:#EAE6DC;--tinta:#25302C;--suave:#6B726D;--mdf:#B79F80;--linea:#D9D4C7;--r:4px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--alto-header,84px) + 12px)}
+body{margin:0;background:var(--hueso);color:var(--tinta);font:400 1rem/1.6 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2,h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;line-height:1.1;margin:0 0 .6em}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);max-width:14ch}
+h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--tinta);outline-offset:3px}
+.wrap{max-width:1100px;margin:0 auto;padding:4rem 1.25rem}
+
+/* Encabezado fijo */
+/* Encabezado fijo (Versión oscura) */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .9rem 1.25rem;
+  background: rgba(20, 24, 21, 0.96); /* Fondo casi negro (var(--tinta)) */
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+.top.scrolled {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.brand{display:flex;align-items:center;gap:.8rem;text-decoration:none;color:var(--hueso)}
+.brand-texto{display:flex;flex-direction:column;line-height:1;white-space:nowrap}
+.brand-nombre{font-family:"Instrument Serif",Georgia,serif;font-size:1.9rem}
+.brand-sub{font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:.85rem;margin-top:.25rem;opacity:.75}
+
+@media(max-width:480px){
+  .brand-nombre{font-size:1.5rem}
+  .brand-sub{font-size:.75rem}
+}
+.top nav {
+  display: flex;
+  gap: 1.4rem;
+}
+.top nav a {
+  text-decoration: none;
+  font-size: .95rem;
+  color: rgba(245, 243, 238, 0.7); /* Enlaces claros */
+}
+.top nav a:hover {
+  color: var(--hueso); /* Enlace más brillante al pasar el mouse */
+}
+
+/* Botones generales */
+.cartbtn, .btn {
+  font: 500 .95rem "Hanken Grotesk", sans-serif;
+  background: var(--tinta);
+  color: var(--hueso);
+  border: 0;
+  border-radius: var(--r);
+  padding: .7rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+/* Botón del carrito invertido para resaltar en el fondo oscuro */
+/* Botón del carrito (el dibujo no cambia) */
+.top .cartbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:.65rem .85rem;background:var(--hueso);color:var(--tinta)}
+.contador-carrito{min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--mdf);color:var(--tinta);font:600 .72rem/20px "Hanken Grotesk",system-ui,sans-serif;text-align:center}
+.top .cartbtn .contador-carrito,.menubtn .contador-carrito{position:absolute;top:-8px;right:-8px;box-shadow:0 0 0 2px #141815}
+.contador-carrito.pop{animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.link {
+  background: none;
+  border: 0;
+  color: var(--suave);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+/* Portada con diapositivas */
+.hero{position:relative;min-height:clamp(460px,78vh,720px);display:flex;align-items:center;overflow:hidden;background:var(--hueso2)}
+.slides{position:absolute;inset:0}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1);transition:opacity 1.4s ease,transform 0s linear 1.4s}
+.slides img.activa{opacity:1;transform:scale(1.07);transition:opacity 1.4s ease,transform 9s linear}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--hueso) 0%,rgba(245,243,238,.94) 28%,rgba(245,243,238,.55) 52%,rgba(245,243,238,0) 78%)}
+.hero.sin-fotos::after,.hero.sin-fotos .dots{display:none}
+.hero-texto{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;padding:3rem 1.25rem}
+.hero-texto>*{max-width:34rem}
+.hero-texto p{color:var(--suave);margin:0 0 1.6rem}
+.dots{position:absolute;z-index:3;left:0;right:0;bottom:1.2rem;display:flex;justify-content:center;gap:.7rem}
+.dots button{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid var(--tinta);background:transparent;cursor:pointer}
+.dots button.on{background:var(--tinta)}
+
+
+
+/* --- DISEÑO DE CATEGORÍAS TIPO TARJETA PREMIUM --- */
+.cat-slider {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Oculta barra en Firefox */
+}
+.cat-slider::-webkit-scrollbar {
+  display: none; /* Oculta barra en Chrome/Safari */
+}
+.cat-card {
+  flex: 0 0 320px; /* Ancho de cada tarjeta */
+  height: 340px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  text-decoration: none;
+  background: var(--tinta);
+  transition: transform 0.3s ease;
+}
+.cat-card:hover {
+  transform: translateY(-4px);
+}
+.cat-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.cat-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.cat-card:hover .cat-bg img {
+  transform: scale(1.05);
+}
+.cat-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  /* Gradiente oscuro que sube desde abajo */
+  background: linear-gradient(to top, rgba(37,48,44, 0.95) 0%, rgba(37,48,44, 0.6) 40%, rgba(37,48,44, 0) 100%);
+}
+.cat-content {
+  position: relative;
+  z-index: 3;
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--hueso);
+}
+.cat-title {
+  font-family: "Hanken Grotesk", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem 0;
+  color: #fff;
+}
+.cat-desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 1.2rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita a 2 renglones */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cat-btn {
+  align-self: flex-end;
+  background: var(--hueso2);
+  color: var(--tinta);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 99px; /* Botón tipo píldora */
+  transition: background 0.2s;
+}
+.cat-card:hover .cat-btn {
+  background: #fff;
+}
+.cat-card.todos {
+  background: var(--mdf);
+}
+/* --- PREGUNTAS FRECUENTES: Estilo Flotante y Animado --- */
+#faqLista details {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+#faqLista details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+#faqLista details[open] {
+  background: var(--hueso2);
+  transform: translateY(0);
+}
+#faqLista summary {
+  font-weight: 500;
+  font-size: 1.05rem;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none; /* Quita el triángulo por defecto */
+}
+#faqLista summary::-webkit-details-marker {
+  display: none; /* Quita el triángulo en Safari y Chrome antiguos */
+}
+#faqLista summary::after {
+  content: "+";
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--mdf);
+  transition: transform 0.25s ease;
+}
+#faqLista details[open] summary::after {
+  content: "−";
+  transform: rotate(180deg);
+}
+#faqLista details p {
+  color: var(--suave);
+  margin: 0.8rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px dashed var(--linea);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- FLECHAS DEL SLIDER --- */
+.slider-btn {
+  transition: opacity 0.2s, background-color 0.2s;
+}
+.slider-btn:disabled {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+
+
+
+
+
+/* Cómo pedir */
+.pasos{list-style:none;counter-reset:p;padding:0;margin:2rem 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.pasos li{counter-increment:p;border-top:2px solid var(--tinta);padding-top:.8rem}
+.pasos li:before{content:counter(p);font-family:"Instrument Serif",serif;font-size:1.6rem;color:var(--mdf)}
+.pasos b{display:block;font-weight:600}
+.pasos span{color:var(--suave);font-size:.93rem}
+
+/* Catálogo */
+.migas{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;color:var(--suave);font-size:.95rem;margin:0 0 1.4rem}
+.migas a{text-decoration:none}
+.migas a:hover{text-decoration:underline}
+.migas [aria-current]{color:var(--tinta)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.4rem}
+.tile{display:block;text-decoration:none}
+.tile .ph{aspect-ratio:4/3}
+.tile-nombre{display:block;font-family:"Instrument Serif",Georgia,serif;font-size:1.5rem;margin-top:.5rem;line-height:1.1}
+.tile-cant{color:var(--suave);font-size:.9rem}
+.tile:hover .ph{background:#E2DDD0}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem}
+.btn-filtros{background:var(--hueso2);border:0;border-radius:var(--r);padding:.65rem 1.1rem;font:inherit;color:var(--tinta);cursor:pointer}
+.contador{color:var(--suave)}
+.panel-filtros{display:flex;flex-wrap:wrap;gap:1rem;align-items:end;background:var(--hueso2);border-radius:var(--r);padding:1rem;margin-bottom:1.2rem}
+label{display:flex;flex-direction:column;gap:.3rem;font-size:.85rem;color:var(--suave)}
+input,select,textarea{font:inherit;color:var(--tinta);background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:.55rem .7rem;max-width:100%}
+.nota{font-size:.85rem;color:var(--suave)}
+.aviso{font-size:.9rem;color:#9a3b2e;margin:0}
+.aviso:empty{display:none}
+.grilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.6rem;margin:1.2rem 0}
+.grilla>p{grid-column:1/-1}
+.card{background:none;border:0;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.ph{aspect-ratio:4/5;background:var(--hueso2);border-radius:var(--r);display:grid;place-items:center;font-family:"Instrument Serif",serif;font-size:3rem;color:var(--mdf);overflow:hidden}
+.ph.todos{font-size:1.8rem}
+.ph img{width:100%;height:100%;object-fit:cover}
+.card:hover .ph{background:#E2DDD0}
+.card h3{font:500 1rem "Hanken Grotesk",sans-serif;margin:.7rem 0 .1rem}
+.precio{color:var(--suave);font-size:.95rem}
+
+/* A medida */
+.medida{display:grid;grid-template-columns:1fr 1fr;gap:3rem;background:var(--hueso2);max-width:none}
+.medida>*{max-width:520px;width:100%}
+.medida>div:first-child{justify-self:end}
+.form{display:flex;flex-direction:column;gap:1rem}
+#mPrev{max-width:200px;border-radius:var(--r)}
+
+/* Preguntas */
+details{border-top:1px solid var(--linea);padding:1rem 0}
+details:last-child{border-bottom:1px solid var(--linea)}
+summary{cursor:pointer;font-weight:500}
+details p{color:var(--suave);margin:.6rem 0 0}
+
+.pie{background:#141815;color:var(--hueso);padding:3rem 1.25rem 5.5rem}
+.pie-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:2rem}
+.pie h3{font:500 .9rem "Hanken Grotesk",sans-serif;opacity:.65;margin:0 0 .6rem}
+.pie p{margin:.25rem 0;font-size:.95rem}
+.pie a{color:var(--hueso);text-decoration:underline;text-underline-offset:3px}
+.pie-marca{font-family:"Instrument Serif",Georgia,serif;font-size:1.6rem;font-weight:400}
+.pie .pie-copy{max-width:1100px;margin:2rem auto 0;padding-top:1rem;border-top:1px solid rgba(245,243,238,.2);opacity:.65;font-size:.85rem}
+@media(max-width:780px){.pie-grid{grid-template-columns:1fr}}
+.wafloat{position:fixed;right:1rem;bottom:1rem;z-index:15;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:linear-gradient(#5dd569,#22b038);box-shadow:0 4px 14px rgba(0,0,0,.28);transition:transform .2s}
+.wafloat:hover{transform:scale(1.08)}
+.wafloat svg{width:36px;height:36px}
+
+/* Detalle y carrito */
+dialog{border:0;border-radius:var(--r);padding:0;width:min(760px,94vw);background:var(--hueso);color:var(--tinta)}
+dialog::backdrop{background:rgba(37,48,44,.5)}
+.det{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:1.5rem}
+.det .ph{aspect-ratio:1}
+.det dl{margin:1rem 0;font-size:.93rem}
+.det dt{color:var(--suave)}
+.det dd{margin:0 0 .6rem}
+.det .x{grid-column:1/-1;justify-self:end;margin-bottom:-1rem}
+.velo{position:fixed;inset:0;background:rgba(37,48,44,.4);z-index:30}
+.carrito{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:var(--hueso);z-index:31;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:-8px 0 24px rgba(0,0,0,.12)}
+.carrito.abierto{transform:none}
+.chead{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;border-bottom:1px solid var(--linea)}
+.chead h2{margin:0;font-size:1.6rem}
+#items{flex:1;overflow:auto;padding:0 1.25rem}
+.it{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--linea)}
+.it b{font-weight:500}
+.qty{display:flex;align-items:center;gap:.5rem}
+.qty button{width:28px;height:28px;border:1px solid var(--linea);background:#fff;border-radius:50%;cursor:pointer}
+.cfoot{padding:1rem 1.25rem;border-top:1px solid var(--linea);display:flex;flex-direction:column;gap:.8rem}
+
+@media(max-width:780px){
+  .menubtn{display:inline-flex}
+  .top .cartbtn{display:none}
+  .nav-carrito{display:flex;align-items:center;gap:.7rem;width:100%;padding:1rem 1.25rem;background:none;border:0;color:var(--hueso);font:500 1.05rem "Hanken Grotesk",system-ui,sans-serif;text-align:left;cursor:pointer}
+  .nav-carrito .contador-carrito{margin-left:auto}
+  .top nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:#141815;border-top:1px solid rgba(255,255,255,.1)}
+  .top nav.abierto{display:flex}
+  .top nav a{padding:1rem 1.25rem;font-size:1.05rem;border-bottom:1px solid rgba(255,255,255,.08)}
+  .hero{align-items:flex-end}
+  .hero::after{background:linear-gradient(0deg,var(--hueso) 0%,rgba(245,243,238,.92) 45%,rgba(245,243,238,.25) 100%)}
+  .hero-texto{padding-bottom:3.5rem}
+  .medida,.det{grid-template-columns:1fr}
+  .medida>div:first-child{justify-self:start}
+  .pasos{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .carrito{transition:none}
+  .slides img,.slides img.activa{transition:opacity .01s;transform:none}
+}
+
+
+
+
+.logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Botón del menú (solo en celular) */
+.menubtn{position:relative;align-items:center;justify-content:center;width:42px;height:42px;background:none;border:1px solid rgba(245,243,238,.35);color:var(--hueso);border-radius:var(--r);cursor:pointer}
+@media(min-width:781px){.menubtn{display:none}}
+@media(min-width:781px){.nav-carrito{display:none}}
