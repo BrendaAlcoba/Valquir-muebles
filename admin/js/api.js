@@ -1,4 +1,10 @@
-const API_URL = "http://localhost:3000/api"; // al publicar: la dirección de tu backend + /api
+// URL del backend
+const API_URL = (
+  location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:3000/api"
+    : "https://valquir-muebles.onrender.com/api" // <-- Tu URL de Render
+);
+
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c =>

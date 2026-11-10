@@ -2,7 +2,7 @@
 const API_URL = (
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:3000/api"
-    : "https://TU-BACKEND-EN-RENDER.onrender.com/api" // ← CAMBIAR al deployar
+    : "https://valquir-muebles.onrender.com/api" // <-- Acá va tu URL de Render
 );
 
 const WHATSAPP = "5492612715912";
